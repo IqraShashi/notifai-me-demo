@@ -262,6 +262,9 @@ def init_db():
 
 @app.before_request
 def load_logged_in_user():
+    if request.endpoint == "static":
+        return
+
     init_db()
     user_id = session.get("user_id")
     g.user = None
