@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="feed-header">
+    <div>
+        <p class="eyebrow">{{ page_title }} / Personalized news desk</p>
+        <h1>Track the stories that match your world.</h1>
+        <p class="hero-copy">Search daily headlines, filter by country, and shape a feed around the topics you care about.</p>
+    </div>
+</section>
+
+<form class="filters" method="get" action="{{ url_for('index') }}">
+    <input type="search" name="q" value="{{ keyword }}" placeholder="Search by keyword">
+
+    <select name="country">
+        <option value="">All countries</option>
+        {% for code, name in countries.items() %}
+            <option value="{{ code }}" {% if selected_country == code %}selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="category">
+        {% for code, name in categories.items() %}
+            <option value="{{ code }}" {% if selected_category == code %}selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Search</button>
+</form>
+
+<div class="feed-actions">
+    {% if g.user %}
+        <form method="post" action="{{ url_for('collect') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="q" value="{{ keyword }}">
+            <input type="hidden" name="country" value="{{ selected_country }}">
+            <input type="hidden" name="category" value="{{ selected_category }}">
+            <button class="secondary-button" type="submit">Collect latest news</button>
+        </form>
+    {% endif %}
+</div>
+
+<section class="article-grid">
+    {% for article in articles %}
+        <article class="article-card">
+            {% if article.image %}
+                <img src="{{ article.image }}" alt="">
+            {% else %}
+                <div class="image-fallback">
+                    <span>{{ article.source[:1] }}</span>
+                </div>
+            {% endif %}
+            <div class="article-content">
+                <p class="meta">{{ article.source }} / {{ article.published_at }}</p>
+                <h2>
+                    <a href="{{ url_for('article_detail', title=article.title, description=article.description, url=article.url, image=article.image, source=article.source, published_at=article.published_at) }}">
+                        {{ article.title }}
+                    </a>
+                </h2>
+                <p>{{ article.description }}</p>
+            </div>
+        </article>
+    {% endfor %}
+</section>
+{% endblock %}

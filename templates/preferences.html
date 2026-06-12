@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="preferences">
+    <h1>Customize your feed</h1>
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <h2>Countries</h2>
+        <div class="choice-grid">
+            {% for code, name in countries.items() %}
+                <label>
+                    <input type="checkbox" name="countries" value="{{ code }}" {% if code in selected_countries %}checked{% endif %}>
+                    {{ name }}
+                </label>
+            {% endfor %}
+        </div>
+
+        <h2>Categories</h2>
+        <div class="choice-grid">
+            {% for code, name in categories.items() %}
+                <label>
+                    <input type="checkbox" name="categories" value="{{ code }}" {% if code in selected_categories %}checked{% endif %}>
+                    {{ name }}
+                </label>
+            {% endfor %}
+        </div>
+
+        <label>Favorite keywords</label>
+        <input type="text" name="keywords" value="{{ keywords }}" placeholder="AI, university, cricket, election">
+
+        <button type="submit">Save preferences</button>
+    </form>
+</section>
+{% endblock %}

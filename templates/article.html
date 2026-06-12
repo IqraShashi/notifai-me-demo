@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article class="detail">
+    {% if article.image %}
+        <img src="{{ article.image }}" alt="">
+    {% endif %}
+    <p class="meta">{{ article.source }} · {{ article.published_at }}</p>
+    <h1>{{ article.title }}</h1>
+    <p class="summary">{{ article.description }}</p>
+    <a class="primary-button" href="{{ article.url }}" target="_blank" rel="noopener">Read full story at source</a>
+</article>
+{% endblock %}

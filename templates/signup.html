@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-panel">
+    <h1>Create account</h1>
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Password</label>
+        <input type="password" name="password" minlength="6" required>
+
+        <button type="submit">Sign up</button>
+    </form>
+    <p>Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+</section>
+{% endblock %}
