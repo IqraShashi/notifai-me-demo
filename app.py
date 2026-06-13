@@ -787,7 +787,7 @@ def index():
         selected_country=country,
         selected_category=category,
         keyword=keyword,
-        page_title="Daily News",
+        page_title="NotifAI.Me",
     )
 
 
